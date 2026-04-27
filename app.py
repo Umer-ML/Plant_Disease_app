@@ -2,7 +2,13 @@ import streamlit as st
 import numpy as np
 import json
 from PIL import Image
-import tensorflow as tf
+# import tensorflow as tf
+try:
+    import tflite_runtime.interpreter as tflite
+    Interpreter = tflite.Interpreter
+except ImportError:
+    import tensorflow as tf
+    Interpreter = tf.lite.Interpreter
 
 # ── Page config ──────────────────────────────────────────────────────
 st.set_page_config(
@@ -353,9 +359,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ── Load Model & Classes ──────────────────────────────────────────────
+# @st.cache_resource
+# def load_model():
+#     interpreter = tf.lite.Interpreter(model_path="plant_disease.tflite")
+#     interpreter.allocate_tensors()
+#     return interpreter
 @st.cache_resource
 def load_model():
-    interpreter = tf.lite.Interpreter(model_path="plant_disease.tflite")
+    interpreter = Interpreter(model_path="plant_disease.tflite")
     interpreter.allocate_tensors()
     return interpreter
 
