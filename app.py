@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import json
 from PIL import Image
-# import tensorflow as tf
+import tensorflow as tf
 try:
     import tflite_runtime.interpreter as tflite
     Interpreter = tflite.Interpreter
